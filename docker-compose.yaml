@@ -27,7 +27,7 @@ services:
       - HUB_HOST=hub
       - MODULE=searchModule.xml
     volumes:
-      - ./output/allure-results:/usr/share/udemy/output/allure-results
+      - ./output/firefox-search-result:/usr/share/udemy/output/allure-results
   search-module2:
     image: nksanoro/selenium-docker
     depends_on:
@@ -38,7 +38,7 @@ services:
       - HUB_HOST=hub
       - MODULE=searchModule.xml
     volumes:
-       - ./output/allure-results:/usr/share/udemy/output/allure-results
+      - ./output/chrome-search-result/usr/share/udemy/output/allure-results
   book-flight-module1:
     image: nksanoro/selenium-docker
     depends_on:
@@ -49,7 +49,7 @@ services:
       - HUB_HOST=hub
       - MODULE=bookFlightModule.xml
     volumes:
-      - ./output/allure-results:/usr/share/udemy/output/allure-results
+      - ./output/firefox-book-result:/usr/share/udemy/output/allure-results
   book-flight-module2:
     image: nksanoro/selenium-docker
     depends_on:
@@ -60,5 +60,5 @@ services:
       - HUB_HOST=hub
       - MODULE=bookFlightModule.xml
     volumes:
-       - ./output/allure-results:/usr/share/udemy/output/allure-results
+      - ./output/chrome-book-result:/usr/share/udemy/output/allure-results
 

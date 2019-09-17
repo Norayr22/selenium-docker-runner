@@ -1,5 +1,10 @@
 pipeline{
     agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 5, unit: 'MINUTES')
+        ansiColor('xterm')
+    }
       stages{
         stage("Pull the latest image"){
             steps{
@@ -9,7 +14,7 @@ pipeline{
         }
         stage("Start Grid"){
             steps{
-                bat "docker-compose up -d hub chrome firefox"
+                bat "docker-compose up -d hub chrome firefox --scale chrome=5 --scale firefox=5"
 
             }
         }
