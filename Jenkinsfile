@@ -24,10 +24,9 @@ pipeline{
 
             }
         }   
-      }
-      post{
-            always{
-                // bat "del output/allure-results"
+        stage("Generate Report"){
+            steps{
+            // bat "del output/allure-results"
                 allure([
                     includeProperties: false,
                     jdk              : '',
@@ -35,7 +34,11 @@ pipeline{
                     reportBuildPolicy: 'ALWAYS',
                     results          : [[path: 'output/allure-results']]
             ])
-        
+        }
+      }
+      }
+      post{
+            always{
                 bat "docker-compose down"
             }
             
