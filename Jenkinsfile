@@ -18,8 +18,8 @@ pipeline{
                bat "docker-compose up  search-module1 search-module2 book-flight-module1 book-flight-module2"
 
             }
-        }
-    }    
+        }   
+      }
       post{
             always{
                 // bat "del output/allure-results"
@@ -30,9 +30,10 @@ pipeline{
                     reportBuildPolicy: 'ALWAYS',
                     results          : [[path: 'output/allure-results']]
             ])
-        }
+        
                 bat "docker-compose down"
+            }
             
     }
 }
-}
+
