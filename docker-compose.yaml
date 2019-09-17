@@ -1,25 +1,62 @@
 version: "3"
 services:
   hub:
-    image: dosel/zalenium
-    ports:
-      - "4444:4444"
-      - "5555:5555"
-    volumes:
-      - /tmp/videos:/home/seluser/videos
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: >
-      start --desiredContainers 10
-            --maxDockerSeleniumContainers 20
-            --maxTestSessions 3 
-            --videoRecordingEnabled false
-  search-module:
-    image: nksanoro/selenium-docker
+    image: selenium/hub
+  chrome:
+    image: selenium/node-chrome-debug
     depends_on:
       - hub
     environment:
       - HUB_HOST=hub
+  firefox:
+    image: selenium/node-firefox-debug
+    shm_size: '2gb'
+    depends_on:
+      - hub
+    environment:
+      - HUB_HOST=hub
+  search-module1:
+    image: nksanoro/selenium-docker
+    depends_on:
+      - chrome
+      - firefox
+    environment:
+      - BROWSER=firefox
+      - HUB_HOST=hub
+      - MODULE=searchModule.xml
+    volumes:
+      - ./output/allure-results:/usr/share/udemy/output/allure-results
+  search-module2:
+    image: nksanoro/selenium-docker
+    depends_on:
+      - chrome
+      - firefox
+    environment:
       - BROWSER=chrome
+      - HUB_HOST=hub
+      - MODULE=searchModule.xml
+    volumes:
+       - ./output/allure-results:/usr/share/udemy/output/allure-results
+  book-flight-module1:
+    image: nksanoro/selenium-docker
+    depends_on:
+      - chrome
+      - firefox
+    environment:
+      - BROWSER=firefox
+      - HUB_HOST=hub
       - MODULE=bookFlightModule.xml
     volumes:
-      - ./output/search-result:/usr/share/udemy/test-output
+      - ./output/allure-results:/usr/share/udemy/output/allure-results
+  book-flight-module2:
+    image: nksanoro/selenium-docker
+    depends_on:
+      - chrome
+      - firefox
+    environment:
+      - BROWSER=chrome
+      - HUB_HOST=hub
+      - MODULE=bookFlightModule.xml
+    volumes:
+       - ./output/allure-results:/usr/share/udemy/output/allure-results
+
